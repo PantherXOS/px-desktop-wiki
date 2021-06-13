@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Wiki
+Comment=PantherX Wiki
+Exec=px-desktop-wiki
+Icon=system-software-install
+Terminal=false
+Type=Application
+Categories=System;
+MimeType=x-scheme-handler/px-desktop-wiki;
