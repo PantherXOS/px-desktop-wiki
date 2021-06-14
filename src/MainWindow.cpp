@@ -1,6 +1,8 @@
 #include "MainWindow.h"
 
+#include <QDir>
 #include <QMap>
+#include <QStandardPaths>
 
 #include "Logger.h"
 #include "UrlLoader.h"
@@ -21,9 +23,19 @@ QMap<QString, QString> leftsideItemUrl = {{MAIN_PAGE_TITLE, "/index.html"},
                                           {HELP_TITLE, "/content/help.html"},
                                           {CONTRIBUTING_TITLE, "/content/contributing.html"}};
 
-MainWindow::MainWindow(const QString mainUrl, QWidget *parent) :
+MainWindow::MainWindow(const QString &mainUrl, const QString &defaultPage, QWidget *parent) :
         PXMainWindow("PantherX Wiki: ", QIcon::fromTheme("panther"), parent),
-        _mainUrl(mainUrl){
+        _mainUrl(mainUrl),
+        _defaultPage(defaultPage){
+    auto installedWikiPath = getInstalledWikiPath();
+    if(_mainUrl.isEmpty()) {
+        if(installedWikiPath.isEmpty()) {
+            GLOG_ERR("The PantherX Wiki html directory not found!!!");
+            exit(1);
+        } else {
+            _mainUrl = installedWikiPath;
+        }
+    }
     GLOG_INF("=> Main Path Loading: " + mainUrl.toStdString());
     buildSidebar();
     topBar()->searchBox()->setDisabled(true);
@@ -33,8 +45,26 @@ MainWindow::MainWindow(const QString mainUrl, QWidget *parent) :
     topBar()->helpButtonAction()->setVisible(false);
 }
 
+QString MainWindow::getInstalledWikiPath(){
+    auto list = QStandardPaths::standardLocations(QStandardPaths::GenericDataLocation);
+    for(auto const &l: list){
+        GLOG_INF("Finding wiki in: \"" + l.toStdString() +"\" ...");
+        QString wikiPath = l + "/px-wiki"; 
+        if(QDir(wikiPath).exists()){
+            GLOG_INF("PantherX Wiki found at: \"" + wikiPath.toStdString() +"\"");
+            return wikiPath;
+        }
+    }
+    return "";
+}
+
 void MainWindow::buildSidebar(){
-    auto overviewItem = new PXSideBarItem(OVERVEIW_TITLE, PXSideBarItem::ItemType::Item);
+    UrlLoader *defaultLoader = nullptr;
+    if(!_defaultPage.isEmpty()) {
+        defaultLoader = new UrlLoader(QUrl(_mainUrl + "/" + _defaultPage));
+        GLOG_INF("Will open: " + _defaultPage.toStdString());
+    }
+    auto overviewItem = new PXSideBarItem(OVERVEIW_TITLE, PXSideBarItem::ItemType::Item, defaultLoader);
     
     auto mainUrlLoader = new UrlLoader(QUrl(_mainUrl + leftsideItemUrl[MAIN_PAGE_TITLE]));
     auto mainpageItem = new PXSideBarItem(MAIN_PAGE_TITLE, PXSideBarItem::ItemType::Subitem, mainUrlLoader);
@@ -65,7 +95,10 @@ void MainWindow::buildSidebar(){
     addItemToSideBar(helpItem);
     addItemToSideBar(contributingItem);
 
-    setDefaultItem(mainpageItem);
+    if(_defaultPage.isEmpty())
+        setDefaultItem(mainpageItem);
+    else
+        setDefaultItem(overviewItem);
 }
 
 MainWindow::~MainWindow() {
