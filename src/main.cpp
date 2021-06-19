@@ -68,7 +68,7 @@ int main (int argc, char** argv) {
     
     QString page = (parser.value(pageOption).isEmpty() ? urlArgs[ARG_NAME_PAGE] : parser.value(pageOption));
     MainWindow mainwindow(parser.value(urlOption), page);
-    mainwindow.show();
+    mainwindow.showMaximized();
     app->exec();
     return 0;
 }

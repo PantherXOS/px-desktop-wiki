@@ -10,15 +10,19 @@
 class MainWindow : public PXMainWindow {
 Q_OBJECT
 public:
-    explicit MainWindow(const QString &mainUrl, const QString &defaultPage="", QWidget *parent = nullptr);
+    explicit MainWindow(const QUrl &mainUrl, const QString &defaultPage="", QWidget *parent = nullptr);
     ~MainWindow() override;
 
+private slots:
+    void backButtonPressed      () override;
+    void forwardButtonPressed   () override;
+
 private:
-    QString          getInstalledWikiPath();
+    QUrl             getInstalledWikiPath();
     void             buildSidebar();
     QWidget         *buildSidebarWidget();
     PXContentWidget *buildView();
-    QString         _mainUrl;
+    QUrl            _mainUrl;
     QString         _defaultPage;
 };
 
