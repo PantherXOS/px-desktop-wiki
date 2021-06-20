@@ -17,12 +17,12 @@
 #define HELP_TITLE                  "Help"
 #define CONTRIBUTING_TITLE          "Contributing"
 
-QMap<QString, QString> leftsideItemUrl = {{MAIN_PAGE_TITLE, "/index.html"},
-                                          {TABL_OF_CONTENT_TITLE, "/Table-of-contents/index.html"},
-                                          {GETTING_INVOLVED_TITLE, "/Involved/index.html"},
-                                          {SEARCH_TITLE, "/Search/index.html"},
-                                          {HELP_TITLE, "/Help/index.html"},
-                                          {CONTRIBUTING_TITLE, "/Contributing/index.html"}};
+QMap<QString, QString> leftsideItemUrl = {{MAIN_PAGE_TITLE, "index.html"},
+                                          {TABL_OF_CONTENT_TITLE, "Table-of-contents/index.html"},
+                                          {GETTING_INVOLVED_TITLE, "Involved/index.html"},
+                                          {SEARCH_TITLE, "Search/index.html"},
+                                          {HELP_TITLE, "Help/index.html"},
+                                          {CONTRIBUTING_TITLE, "Contributing/index.html"}};
 
 MainWindow::MainWindow(const QUrl &mainUrl, const QString &defaultPage, QWidget *parent) :
         PXMainWindow("PantherX Wiki: ", QIcon::fromTheme("panther"), parent),
@@ -58,7 +58,7 @@ QUrl MainWindow::getInstalledWikiPath(){
         GLOG_INF("Finding wiki in: \"" + l.toStdString() +"\" ...");
         QString wikiPath = l + "/px-wiki"; 
         if(QDir(wikiPath).exists()){
-            wikiPath += "/content";
+            wikiPath += "/content/";
             GLOG_INF("PantherX Wiki found at: \"" + wikiPath.toStdString() +"\"");
             return QUrl::fromLocalFile(wikiPath);
         }
