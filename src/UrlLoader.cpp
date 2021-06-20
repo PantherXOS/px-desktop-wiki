@@ -40,7 +40,7 @@ void UrlLoader::loadHtmlToView(const QString &file) {
 }
 
 UrlLoader::UrlLoader(const QUrl &baseUrl, const QUrl &contentUrl) : 
-    PXContentWidget(getFullUrl(baseUrl, contentUrl).toString()) ,
+    PXContentWidget(getFullUrl(baseUrl, contentUrl).toLocalFile()) ,
     _baseUrl(baseUrl) {
         auto url = getFullUrl(_baseUrl, contentUrl);
         GLOG_INF("Base URL: " + _baseUrl.toString().toStdString() + ", Content URL: " + contentUrl.toString().toStdString());

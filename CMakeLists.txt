@@ -21,5 +21,5 @@ add_executable(px-desktop-wiki
 
 target_link_libraries(px-desktop-wiki Qt5::Core Qt5::Widgets Qt5::Gui Qt5::WebEngineWidgets px-gui-library)
 install(TARGETS px-desktop-wiki DESTINATION bin)
-install(FILES   desktop/px-desktop.desktop
+install(FILES   desktop/px-desktop-wiki.desktop
                 DESTINATION share/applications)

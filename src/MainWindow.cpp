@@ -69,8 +69,11 @@ QUrl MainWindow::getInstalledWikiPath(){
 void MainWindow::buildSidebar(){
     UrlLoader *defaultLoader = nullptr;
     if(!_defaultPage.isEmpty()) {
-        defaultLoader = new UrlLoader(_mainUrl , QUrl(_defaultPage));
-        GLOG_INF("Will open: " + _defaultPage.toStdString());
+        QUrl defaultUrl(_defaultPage);
+        if(defaultUrl.fileName().isEmpty())
+            defaultUrl = QUrl(_defaultPage + "index.html");
+        defaultLoader = new UrlLoader(_mainUrl , defaultUrl);
+        GLOG_INF("Will open: " + defaultUrl.toString().toStdString());
     }
     auto overviewItem = new PXSideBarItem(OVERVEIW_TITLE, PXSideBarItem::ItemType::Item, defaultLoader);
     

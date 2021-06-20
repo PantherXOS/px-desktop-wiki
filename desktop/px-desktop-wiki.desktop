@@ -2,8 +2,9 @@
 Name=Wiki
 Comment=PantherX Wiki
 Exec=px-desktop-wiki
-Icon=system-software-install
+Icon=px-help
 Terminal=false
 Type=Application
-Categories=System;
+Categories=System;Documentation;
+OnlyShowIn=LXQt;
 MimeType=x-scheme-handler/px-desktop-wiki;
