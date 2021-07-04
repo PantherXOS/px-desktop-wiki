@@ -3,28 +3,6 @@
 #include <QFile>
 #include <QWebEngineHistory>
 
-// void UrlLoader::loadHtmlToView(const QUrl &base, const QUrl &url) {
-//     qDebug() << base << url;
-// #if URL_APPROACH
-//     view->setUrl(url);
-// #else
-//     QFile *f;
-//     if(url.isLocalFile())
-//         f = new QFile(base.toLocalFile() + url.toLocalFile());
-//     else 
-//         f = new QFile(url.toString());
-//     qDebug() << "filename" << f->fileName();
-//     if (!f->open(QFile::ReadOnly | QFile::Text)) {
-//         GLOG_WRN("Could not read file \"" + base.toLocalFile().toStdString() + url.toLocalFile().toStdString() + "\"");
-//         return;
-//     }    
-//     QTextStream in(f);
-//     view->setHtml(in.readAll().toUtf8(), base);    
-//     f->close();
-//     delete f;
-// #endif
-// }
-
 inline QUrl getFullUrl(const QUrl &baseUrl, const QUrl &contentUrl) {
     return QUrl(baseUrl.toString() + contentUrl.toString());
 } 
@@ -39,7 +17,7 @@ void UrlLoader::loadHtmlToView(const QString &file) {
     view->setHtml(in.readAll().toUtf8(), _baseUrl);
 }
 
-UrlLoader::UrlLoader(const QUrl &baseUrl, const QUrl &contentUrl) : 
+UrlLoader::UrlLoader(const QUrl &baseUrl, const QUrl &contentUrl, bool loadHtmlFile) : 
     PXContentWidget(getFullUrl(baseUrl, contentUrl).toLocalFile()) ,
     _baseUrl(baseUrl) {
         auto url = getFullUrl(_baseUrl, contentUrl);
@@ -50,13 +28,14 @@ UrlLoader::UrlLoader(const QUrl &baseUrl, const QUrl &contentUrl) :
             if(url.isLocalFile()) {
                 GLOG_INF(" >  " + url.toString().toStdString());
             }
-            if(view->url().fileName().isEmpty()) {
+            if(view->url().fileName().isEmpty() && url.toString().compare(_baseUrl.toString())) {
                 loadHtmlToView(_baseUrl.toLocalFile() + url.toLocalFile() + "index.html");
             }
             emit urlChanged(url);
         });
 
-        loadHtmlToView(url.toLocalFile());
+        if(loadHtmlFile) loadHtmlToView(url.toLocalFile());
+        else             view->setUrl(url);
         setWidgetResizable(true);
         setWidget(view);
 }

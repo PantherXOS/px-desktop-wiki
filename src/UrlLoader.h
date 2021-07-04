@@ -9,7 +9,7 @@
 class UrlLoader : public PXContentWidget {
 Q_OBJECT
 public:
-    UrlLoader(const QUrl &base, const QUrl &contentUrl);
+    UrlLoader(const QUrl &base, const QUrl &contentUrl, bool loadHtmlFile = true);
     void back();
     void forward();
     

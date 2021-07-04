@@ -5,7 +5,7 @@
 #include "MainWindow.h"
 
 #define APPLICATION_NAME    "px-desktop-wiki"
-#define APPLICATION_VERSION "0.0.1"
+#define APPLICATION_VERSION "0.0.3"
 
 Logger gLogger(std::string(APPLICATION_NAME));
 
