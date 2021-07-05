@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 
+
+## [0.0.4]
+### Changed
+
+- Fixing minor issue based on new update of GUI Library ( Help URL ).
+
+
 ## [0.0.3]
 ### Changed
 

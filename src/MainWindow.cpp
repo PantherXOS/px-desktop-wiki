@@ -25,7 +25,7 @@ QMap<QString, QString> leftsideItemUrl = {{MAIN_PAGE_TITLE, "index.html"},
                                           {CONTRIBUTING_TITLE, "Contributing/index.html"}};
 
 MainWindow::MainWindow(const QUrl &mainUrl, const QString &defaultPage, QWidget *parent) :
-        PXMainWindow("PantherX Wiki: ", QIcon::fromTheme("panther"), parent),
+        PXMainWindow("PantherX Wiki: ", QIcon::fromTheme("panther"), "", parent),
         _mainUrl(mainUrl),
         _defaultPage(defaultPage){
     auto installedWikiPath = getInstalledWikiPath();
