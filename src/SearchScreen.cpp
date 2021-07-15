@@ -7,6 +7,7 @@
 #include <QVBoxLayout>
 #include <QProcess>
 #include <QDebug>
+#include <QByteArray>
 
 SearchScreen::SearchScreen(const QUrl &url):
     PXContentWidget("Search") ,
@@ -20,7 +21,7 @@ SearchScreen::SearchScreen(const QUrl &url):
             if(text.isEmpty())
                 clearList();
             else {
-                QStringList args = QStringList() << "dir:" + _url.toLocalFile() << text;
+                QStringList args = QStringList() << "-F" << "mtype filename url" << "dir:" + _url.toLocalFile() << "-q" << text;
                 process->start("recollq", args);
             }
         });
@@ -39,16 +40,14 @@ void SearchScreen::recollProcessHandler(int exitCode){
     if(!exitCode) {
         QString output = process->readAllStandardOutput();
         QStringList lines = output.split('\n');
-        if(lines.size()) 
-            lines.removeAt(0);
         for(auto const &l: lines){
-            QStringList info = l.split("\t");
-            if(info.size()>4) {
-                QString type = info[0];
+            QStringList info = l.split(" ");
+            if(info.size()>=4) {
+                QString type = QString::fromStdString(QByteArray::fromBase64(info[0].toUtf8()).toStdString());
                 if(type == "text/html") {
-                    QString addr = info[1].remove("[").remove("]");
+                    QString name = QString::fromStdString(QByteArray::fromBase64(info[1].toUtf8()).toStdString()).remove("[").remove("]");
+                    QString addr = QString::fromStdString(QByteArray::fromBase64(info[2].toUtf8()).toStdString()).remove("[").remove("]");
                     QString fullAddr = addr;
-                    QString name = info[2].remove("[").remove("]");
                     SearchItem *item = new SearchItem(name,addr.remove(_url.toString()), fullAddr);
                     _listWidget->addItem(item);
                     _listWidget->setItemWidget(item, item->widget());
