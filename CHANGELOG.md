@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 
 
+## [0.0.5]
+### Changed
+
+- Integrated the Search item with `recoll`.
+
+
 ## [0.0.4]
 ### Changed
 

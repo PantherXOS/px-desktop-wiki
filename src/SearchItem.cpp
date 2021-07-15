@@ -5,10 +5,13 @@
 #include <QUrl>
 #include <QLabel>
 
+#include "Logger.h"
+
 #define SEARCH_ICON_SIZE    32
 SearchItem::SearchItem(const QString &name, const QString &address, const QString &fullAddress) : 
     _name(name), 
     _addr(QUrl(address)){
+        GLOG_INF("Search item created [" + name.toStdString() + ", " + address.toStdString() + ", " + fullAddress.toStdString() + "]");
         QIcon _icon(QIcon::fromTheme("text-html"));
         QPixmap pixmap = _icon.pixmap(QSize(SEARCH_ICON_SIZE,SEARCH_ICON_SIZE), QIcon::Normal, QIcon::On);
         _iconLabel.setPixmap(pixmap);

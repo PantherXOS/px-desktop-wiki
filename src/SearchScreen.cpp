@@ -20,7 +20,7 @@ SearchScreen::SearchScreen(const QUrl &url):
             if(text.isEmpty())
                 clearList();
             else {
-                QStringList args = QStringList() << "dir:" + _url.toLocalFile() << "-S" << text;
+                QStringList args = QStringList() << "dir:" + _url.toLocalFile() << text;
                 process->start("recollq", args);
             }
         });
@@ -56,6 +56,8 @@ void SearchScreen::recollProcessHandler(int exitCode){
                 }
             }
         }
+    } else {
+        GLOG_WRN(process->readAllStandardError().toStdString());
     }
 }
 
