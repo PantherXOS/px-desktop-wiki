@@ -6,7 +6,7 @@
 #include <QStandardPaths>
 
 #include "Logger.h"
-#include "UrlLoader.h"
+#include "SearchScreen.h"
 
 #define OVERVEIW_TITLE              "Overview"
 #define MAIN_PAGE_TITLE             "Main page"
@@ -45,11 +45,19 @@ MainWindow::MainWindow(const QUrl &mainUrl, const QString &defaultPage, QWidget 
 }
 
 void MainWindow::backButtonPressed(){
-    ((UrlLoader *)(((PXSideBarItem *)(sideBarList()->currentItem()))->getView()))->back();
+    auto searchScreen = qobject_cast<SearchScreen*>(((PXSideBarItem *)(sideBarList()->currentItem()))->getView());
+    if(searchScreen)
+        searchScreenLoader->back();
+    else
+        ((UrlLoader *)(((PXSideBarItem *)(sideBarList()->currentItem()))->getView()))->back();
 }
 
 void MainWindow::forwardButtonPressed(){
-    ((UrlLoader *)(((PXSideBarItem *)(sideBarList()->currentItem()))->getView()))->forward();
+    auto searchScreen = qobject_cast<SearchScreen*>(((PXSideBarItem *)(sideBarList()->currentItem()))->getView());
+    if(searchScreen)
+        searchScreenLoader->forward();
+    else
+        ((UrlLoader *)(((PXSideBarItem *)(sideBarList()->currentItem()))->getView()))->forward();
 }
 
 QUrl MainWindow::getInstalledWikiPath(){
@@ -86,8 +94,16 @@ void MainWindow::buildSidebar(){
     auto involvedUrlLoader = new UrlLoader(_mainUrl ,QUrl(leftsideItemUrl[GETTING_INVOLVED_TITLE]));
     auto gettinginvolvedItem = new PXSideBarItem(GETTING_INVOLVED_TITLE, PXSideBarItem::ItemType::Subitem,involvedUrlLoader);
 
-    auto searchUrlLoader = new UrlLoader(_mainUrl ,QUrl(leftsideItemUrl[SEARCH_TITLE]));
-    auto searchItem = new PXSideBarItem(SEARCH_TITLE, PXSideBarItem::ItemType::Subitem, searchUrlLoader);
+    auto searchScreen = new SearchScreen(_mainUrl);
+    connect(searchScreen, &SearchScreen::searchItemClicked, [&](const QUrl &url){
+        if(searchScreenLoader) {
+            searchScreenLoader->deleteLater();
+            searchScreenLoader = nullptr;
+        }
+        searchScreenLoader = new UrlLoader(_mainUrl, url);
+        addContent(searchScreenLoader);
+    });
+    auto searchItem = new PXSideBarItem(SEARCH_TITLE, PXSideBarItem::ItemType::Subitem, searchScreen);
 
     auto interactionItem = new PXSideBarItem(INTERACTION_TITLE, PXSideBarItem::ItemType::Item);
 
@@ -114,3 +130,4 @@ void MainWindow::buildSidebar(){
 
 MainWindow::~MainWindow() {
 }
+

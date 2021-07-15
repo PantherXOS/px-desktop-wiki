@@ -22,7 +22,7 @@ UrlLoader::UrlLoader(const QUrl &baseUrl, const QUrl &contentUrl, bool loadHtmlF
     _baseUrl(baseUrl) {
         auto url = getFullUrl(_baseUrl, contentUrl);
         GLOG_INF("Base URL: " + _baseUrl.toString().toStdString() + ", Content URL: " + contentUrl.toString().toStdString());
-        view= new QWebEngineView(this);
+        view = new QWebEngineView(this);
         
         connect(view, &QWebEngineView::urlChanged,[&](const QUrl &url){
             if(url.isLocalFile()) {

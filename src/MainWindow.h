@@ -6,6 +6,7 @@
 
 #include "PXMainWindow.h"
 #include "PXSideBarItem.h"
+#include "UrlLoader.h"
 
 class MainWindow : public PXMainWindow {
 Q_OBJECT
@@ -24,6 +25,7 @@ private:
     PXContentWidget *buildView();
     QUrl            _mainUrl;
     QString         _defaultPage;
+    UrlLoader       *searchScreenLoader = nullptr;
 };
 
 #endif //EXAMPLE_MAINWINDOW
