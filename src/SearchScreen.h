@@ -24,6 +24,7 @@ private:
     QUrl      _url;
     QProcess *process;
     QListWidget *_listWidget;
+    QString      _keyword;
 };
 
 #endif

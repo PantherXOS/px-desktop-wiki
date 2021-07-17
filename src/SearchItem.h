@@ -16,7 +16,7 @@
 class SearchItem : public QListWidgetItem{
     QOBJECT_H
 public:
-    SearchItem(const QString &name, const QString &address, const QString &fullAddress);
+    SearchItem(const QString &name, const QString &address, const QString &fullAddress, const QString &abstract);
     QUrl address();
     QWidget *widget();
 
@@ -26,7 +26,7 @@ private:
     QWidget *_widget;
     QLabel  _openLabel;
     QLabel  _nameLabel;
-    QLabel  _addrLabel;
+    QLabel  _abstractLabel;
     QLabel  _iconLabel;
     PXSeperator _seperator;
 };

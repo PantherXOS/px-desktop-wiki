@@ -18,10 +18,11 @@ SearchScreen::SearchScreen(const QUrl &url):
 
         process = new QProcess(this);
         connect(searchTextEdit, &QLineEdit::textChanged, [&](const QString &text){
+            _keyword = text;
             if(text.isEmpty())
                 clearList();
             else {
-                QStringList args = QStringList() << "-F" << "mtype filename url" << "dir:" + _url.toLocalFile() << "-q" << text;
+                QStringList args = QStringList() << "-F" << "mtype filename url abstract" << "dir:" + _url.toLocalFile() << "-q" << text;
                 process->start("recollq", args);
             }
         });
@@ -47,8 +48,8 @@ void SearchScreen::recollProcessHandler(int exitCode){
                 if(type == "text/html") {
                     QString name = QString::fromStdString(QByteArray::fromBase64(info[1].toUtf8()).toStdString()).remove("[").remove("]");
                     QString addr = QString::fromStdString(QByteArray::fromBase64(info[2].toUtf8()).toStdString()).remove("[").remove("]");
-                    QString fullAddr = addr;
-                    SearchItem *item = new SearchItem(name,addr.remove(_url.toString()), fullAddr);
+                    QString abstract = QString::fromStdString(QByteArray::fromBase64(info[3].toUtf8()).toStdString()).remove("[").remove("]");
+                    SearchItem *item = new SearchItem(name,addr.remove(_url.toString()), _keyword, abstract);
                     _listWidget->addItem(item);
                     _listWidget->setItemWidget(item, item->widget());
                     item->setSizeHint(item->widget()->size());
