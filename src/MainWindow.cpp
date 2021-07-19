@@ -131,3 +131,12 @@ void MainWindow::buildSidebar(){
 MainWindow::~MainWindow() {
 }
 
+void MainWindow::sideBarItemHandler (QListWidgetItem* item){
+    PXMainWindow::sideBarItemHandler(item);
+    auto pxWidget = ((PXSideBarItem *)item)->getView();
+    if(pxWidget){
+        auto urlLoader = qobject_cast<UrlLoader*>(((PXSideBarItem *)item)->getView());
+        if(urlLoader)
+            urlLoader->goHome();
+    }
+}

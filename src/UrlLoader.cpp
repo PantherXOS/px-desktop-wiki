@@ -19,8 +19,9 @@ void UrlLoader::loadHtmlToView(const QString &file) {
 
 UrlLoader::UrlLoader(const QUrl &baseUrl, const QUrl &contentUrl, bool loadHtmlFile) : 
     PXContentWidget(getFullUrl(baseUrl, contentUrl).toLocalFile()) ,
-    _baseUrl(baseUrl) {
-        auto url = getFullUrl(_baseUrl, contentUrl);
+    _baseUrl(baseUrl),
+    _loadhtmlFile(loadHtmlFile),
+    _fullUrl(getFullUrl(baseUrl, contentUrl)) {
         GLOG_INF("Base URL: " + _baseUrl.toString().toStdString() + ", Content URL: " + contentUrl.toString().toStdString());
         view = new QWebEngineView(this);
         
@@ -33,9 +34,7 @@ UrlLoader::UrlLoader(const QUrl &baseUrl, const QUrl &contentUrl, bool loadHtmlF
             }
             emit urlChanged(url);
         });
-
-        if(loadHtmlFile) loadHtmlToView(url.toLocalFile());
-        else             view->setUrl(url);
+        goHome();
         setWidgetResizable(true);
         setWidget(view);
 }
@@ -50,4 +49,10 @@ void UrlLoader::back(){
 
 void UrlLoader::forward(){
     view->history()->forward();
+}
+
+void UrlLoader::goHome(){
+    view->history()->clear();
+    if(_loadhtmlFile) loadHtmlToView(_fullUrl.toLocalFile());
+    else              view->setUrl(_fullUrl);
 }

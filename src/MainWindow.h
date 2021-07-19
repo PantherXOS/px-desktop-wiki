@@ -17,6 +17,7 @@ public:
 private slots:
     void backButtonPressed      () override;
     void forwardButtonPressed   () override;
+    void sideBarItemHandler     (QListWidgetItem*);
 
 private:
     QUrl             getInstalledWikiPath();
