@@ -1,10 +1,10 @@
 [Desktop Entry]
-Name=Wiki
+Name=Wiki / Help
 Comment=PantherX Wiki
 Exec=px-desktop-wiki
 Icon=px-help
 Terminal=false
 Type=Application
-Categories=System;Documentation;
+Categories=PX-About;
 OnlyShowIn=LXQt;
 MimeType=x-scheme-handler/px-desktop-wiki;
