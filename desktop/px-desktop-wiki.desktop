@@ -5,6 +5,5 @@ Exec=px-desktop-wiki
 Icon=px-help
 Terminal=false
 Type=Application
-Categories=System;Documentation;
 OnlyShowIn=LXQt;
 MimeType=x-scheme-handler/px-desktop-wiki;

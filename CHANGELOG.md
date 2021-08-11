@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 
+## [0.0.9]
+### Changed
+
+- Remove wiki from system category
+
+
 ## [0.0.8]
 ### Changed
 
