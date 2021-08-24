@@ -80,7 +80,7 @@ void MainWindow::buildSidebar(){
         QUrl defaultUrl(_defaultPage);
         if(defaultUrl.fileName().isEmpty())
             defaultUrl = QUrl(_defaultPage + "index.html");
-        defaultLoader = new UrlLoader(_mainUrl, defaultUrl, false);
+        defaultLoader = new UrlLoader(_mainUrl, defaultUrl);
         GLOG_INF("Will open: " + defaultUrl.toString().toStdString());
     }
     auto overviewItem = new PXSideBarItem(OVERVEIW_TITLE, PXSideBarItem::ItemType::Item, defaultLoader);

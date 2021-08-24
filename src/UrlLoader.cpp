@@ -2,6 +2,7 @@
 #include "Logger.h"
 #include <QFile>
 #include <QWebEngineHistory>
+#include <QDesktopServices>
 
 inline QUrl getFullUrl(const QUrl &baseUrl, const QUrl &contentUrl) {
     return QUrl(baseUrl.toString() + contentUrl.toString());
@@ -17,10 +18,9 @@ void UrlLoader::loadHtmlToView(const QString &file) {
     view->setHtml(in.readAll().toUtf8(), _baseUrl);
 }
 
-UrlLoader::UrlLoader(const QUrl &baseUrl, const QUrl &contentUrl, bool loadHtmlFile) : 
+UrlLoader::UrlLoader(const QUrl &baseUrl, const QUrl &contentUrl) : 
     PXContentWidget(getFullUrl(baseUrl, contentUrl).toLocalFile()) ,
     _baseUrl(baseUrl),
-    _loadhtmlFile(loadHtmlFile),
     _fullUrl(getFullUrl(baseUrl, contentUrl)) {
         GLOG_INF("Base URL: " + _baseUrl.toString().toStdString() + ", Content URL: " + contentUrl.toString().toStdString());
         view = new QWebEngineView(this);
@@ -28,11 +28,13 @@ UrlLoader::UrlLoader(const QUrl &baseUrl, const QUrl &contentUrl, bool loadHtmlF
         connect(view, &QWebEngineView::urlChanged,[&](const QUrl &url){
             if(url.isLocalFile()) {
                 GLOG_INF(" >  " + url.toString().toStdString());
+                if(view->url().fileName().isEmpty() && url.toString().compare(_baseUrl.toString())) {
+                    loadHtmlToView(_baseUrl.toLocalFile() + url.toLocalFile() + "index.html");
+                }
+                emit urlChanged(url);
+            } else {
+                QDesktopServices::openUrl(url);
             }
-            if(view->url().fileName().isEmpty() && url.toString().compare(_baseUrl.toString())) {
-                loadHtmlToView(_baseUrl.toLocalFile() + url.toLocalFile() + "index.html");
-            }
-            emit urlChanged(url);
         });
         goHome();
         setWidgetResizable(true);

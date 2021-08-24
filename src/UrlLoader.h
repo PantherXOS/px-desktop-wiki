@@ -9,7 +9,7 @@
 class UrlLoader : public PXContentWidget {
 Q_OBJECT
 public:
-    UrlLoader(const QUrl &base, const QUrl &contentUrl, bool loadHtmlFile = true);
+    UrlLoader(const QUrl &base, const QUrl &contentUrl);
     void back();
     void forward();
     void goHome();
@@ -20,7 +20,6 @@ signals:
 private:
     void loadHtmlToView(const QString &file);
     QUrl _baseUrl;
-    bool _loadhtmlFile;
     QUrl _fullUrl;
     QWebEngineView *view;
 };
