@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 
+
+## [0.1.0]
+### Changed
+
+- Fixed issue in openning the Desktop Wiki via URL scheme. (resource path issue)
+
+
 ## [0.0.9]
 ### Changed
 

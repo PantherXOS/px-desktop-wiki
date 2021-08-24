@@ -53,6 +53,5 @@ void UrlLoader::forward(){
 
 void UrlLoader::goHome(){
     view->history()->clear();
-    if(_loadhtmlFile) loadHtmlToView(_fullUrl.toLocalFile());
-    else              view->setUrl(_fullUrl);
+    loadHtmlToView(_fullUrl.toLocalFile());
 }
