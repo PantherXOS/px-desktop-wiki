@@ -2,7 +2,6 @@
 #include "Logger.h"
 #include <QFile>
 #include <QWebEngineHistory>
-#include <QDesktopServices>
 
 inline QUrl getFullUrl(const QUrl &baseUrl, const QUrl &contentUrl) {
     return QUrl(baseUrl.toString() + contentUrl.toString());
@@ -13,7 +12,7 @@ void UrlLoader::loadHtmlToView(const QString &file) {
     if (!f.open(QFile::ReadOnly | QFile::Text)) {
         GLOG_WRN("Could not read file \"" + file.toStdString() + "\"");
         return;
-    }
+    }    
     QTextStream in(&f);
     view->setHtml(in.readAll().toUtf8(), _baseUrl);
 }
@@ -25,6 +24,9 @@ UrlLoader::UrlLoader(const QUrl &baseUrl, const QUrl &contentUrl) :
         GLOG_INF("Base URL: " + _baseUrl.toString().toStdString() + ", Content URL: " + contentUrl.toString().toStdString());
         view = new QWebEngineView(this);
         
+        auto page = new UrlLoaderPage();
+        view->setPage(page);
+
         connect(view, &QWebEngineView::urlChanged,[&](const QUrl &url){
             if(url.isLocalFile()) {
                 GLOG_INF(" >  " + url.toString().toStdString());

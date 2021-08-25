@@ -3,8 +3,23 @@
 
 #include <QUrl>
 #include <QWebEngineView>
+#include <QWebEnginePage>
+#include <QDesktopServices>
 
 #include <PXContentWidget.h>
+
+class UrlLoaderPage : public QWebEnginePage{
+    Q_OBJECT
+    public:
+    bool acceptNavigationRequest(const QUrl &url, QWebEnginePage::NavigationType type, bool main) {
+        // Check if remote url --> open in default browser
+        if (type == QWebEnginePage::NavigationTypeLinkClicked && !url.isLocalFile()) {
+            QDesktopServices::openUrl(url);
+            return false;
+        }
+        return true;
+    };
+};
 
 class UrlLoader : public PXContentWidget {
 Q_OBJECT
