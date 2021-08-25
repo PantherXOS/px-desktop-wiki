@@ -8,9 +8,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 ## [0.1.0]
 ### Changed
 
-- Fixed issue in opening the Desktop Wiki via URL scheme. (resource path issue)
+- Fixing issue in opening the Desktop Wiki via URL scheme. (resource path issue)
 - Opening External Links in default browser.
-
+- Fixing issue in updating the path preview.
+ 
 
 ## [0.0.9]
 ### Changed
