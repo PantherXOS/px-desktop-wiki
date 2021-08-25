@@ -13,7 +13,7 @@ void UrlLoader::loadHtmlToView(const QString &file) {
     if (!f.open(QFile::ReadOnly | QFile::Text)) {
         GLOG_WRN("Could not read file \"" + file.toStdString() + "\"");
         return;
-    }    
+    }
     QTextStream in(&f);
     view->setHtml(in.readAll().toUtf8(), _baseUrl);
 }
@@ -28,12 +28,10 @@ UrlLoader::UrlLoader(const QUrl &baseUrl, const QUrl &contentUrl) :
         connect(view, &QWebEngineView::urlChanged,[&](const QUrl &url){
             if(url.isLocalFile()) {
                 GLOG_INF(" >  " + url.toString().toStdString());
-                if(view->url().fileName().isEmpty() && url.toString().compare(_baseUrl.toString())) {
+                if(view->url().fileName().isEmpty() && (url.toString().compare(_baseUrl.toString()) < 0)) {
                     loadHtmlToView(_baseUrl.toLocalFile() + url.toLocalFile() + "index.html");
+                    emit urlChanged(_baseUrl.toLocalFile() + url.toLocalFile() + "index.html");
                 }
-                emit urlChanged(url);
-            } else {
-                QDesktopServices::openUrl(url);
             }
         });
         goHome();

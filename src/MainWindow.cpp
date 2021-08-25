@@ -81,19 +81,23 @@ void MainWindow::buildSidebar(){
         if(defaultUrl.fileName().isEmpty())
             defaultUrl = QUrl(_defaultPage + "index.html");
         defaultLoader = new UrlLoader(_mainUrl, defaultUrl);
+        connect(defaultLoader, SIGNAL(urlChanged(const QUrl &)), this, SLOT(urlChanged(const QUrl &)));
         GLOG_INF("Will open: " + defaultUrl.toString().toStdString());
     }
     auto overviewItem = new PXSideBarItem(OVERVEIW_TITLE, PXSideBarItem::ItemType::Item, defaultLoader);
     
     auto mainUrlLoader = new UrlLoader(_mainUrl , QUrl(leftsideItemUrl[MAIN_PAGE_TITLE]));
     auto mainpageItem = new PXSideBarItem(MAIN_PAGE_TITLE, PXSideBarItem::ItemType::Subitem, mainUrlLoader);
-    
+    connect(mainUrlLoader, SIGNAL(urlChanged(const QUrl &)), this, SLOT(urlChanged(const QUrl &)));
+
     auto tableUrlLoader = new UrlLoader(_mainUrl, QUrl(leftsideItemUrl[TABL_OF_CONTENT_TITLE]));
     auto tableofcontentItem = new PXSideBarItem(TABL_OF_CONTENT_TITLE, PXSideBarItem::ItemType::Subitem,tableUrlLoader);
-
+    connect(tableUrlLoader, SIGNAL(urlChanged(const QUrl &)), this, SLOT(urlChanged(const QUrl &)));
+    
     auto involvedUrlLoader = new UrlLoader(_mainUrl ,QUrl(leftsideItemUrl[GETTING_INVOLVED_TITLE]));
     auto gettinginvolvedItem = new PXSideBarItem(GETTING_INVOLVED_TITLE, PXSideBarItem::ItemType::Subitem,involvedUrlLoader);
-
+    connect(involvedUrlLoader, SIGNAL(urlChanged(const QUrl &)), this, SLOT(urlChanged(const QUrl &)));
+    
     auto searchScreen = new SearchScreen(_mainUrl);
     connect(searchScreen, &SearchScreen::searchItemClicked, [&](const QUrl &url){
         if(searchScreenLoader) {
@@ -109,9 +113,11 @@ void MainWindow::buildSidebar(){
 
     auto helpUrlLoader = new UrlLoader(_mainUrl, QUrl(leftsideItemUrl[HELP_TITLE]));
     auto helpItem = new PXSideBarItem(HELP_TITLE, PXSideBarItem::ItemType::Subitem, helpUrlLoader);
+    connect(helpUrlLoader, SIGNAL(urlChanged(const QUrl &)), this, SLOT(urlChanged(const QUrl &)));
 
     auto contributingUrlLoader = new UrlLoader(_mainUrl ,QUrl(leftsideItemUrl[CONTRIBUTING_TITLE]));
     auto contributingItem = new PXSideBarItem(CONTRIBUTING_TITLE, PXSideBarItem::ItemType::Subitem, contributingUrlLoader);
+    connect(contributingUrlLoader, SIGNAL(urlChanged(const QUrl &)), this, SLOT(urlChanged(const QUrl &)));
 
     addItemToSideBar(overviewItem);
     addItemToSideBar(mainpageItem);
@@ -139,4 +145,9 @@ void MainWindow::sideBarItemHandler (QListWidgetItem* item){
         if(urlLoader)
             urlLoader->goHome();
     }
+}
+
+void MainWindow::urlChanged(const QUrl &url){
+    auto _str = url.toString().replace("//","/");
+    searchBox()->setText(_str);
 }

@@ -18,7 +18,8 @@ private slots:
     void backButtonPressed      () override;
     void forwardButtonPressed   () override;
     void sideBarItemHandler     (QListWidgetItem*);
-
+    void urlChanged             (const QUrl &);
+    
 private:
     QUrl             getInstalledWikiPath();
     void             buildSidebar();
