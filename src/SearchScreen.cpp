@@ -69,6 +69,7 @@ void SearchScreen::clearList(){
 }
 
 void SearchScreen::itemClickedHandler(QListWidgetItem *item){
+    _listWidget->scrollToItem(item);
     auto url = ((SearchItem *)item)->address();
     GLOG_INF("Search item click: " + url.toString().toStdString());
     emit searchItemClicked(url);
