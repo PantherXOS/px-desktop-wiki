@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 
+## [0.1.2]
+### Changed
+
+- Showing Start Indexing message for user if wiki not indexed by recoll.
+
+
 ## [0.1.1]
 ### Changed
 
