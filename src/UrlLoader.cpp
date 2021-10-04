@@ -31,7 +31,8 @@ UrlLoader::UrlLoader(const QUrl &baseUrl, const QUrl &contentUrl) :
             if(url.isLocalFile()) {
                 GLOG_INF(" >  " + url.toString().toStdString());
                 if(view->url().fileName().isEmpty() && (url.toString().compare(_baseUrl.toString()) < 0)) {
-                    loadHtmlToView(_baseUrl.toLocalFile() + url.toLocalFile() + "index.html");
+                    view->history()->back();
+                    view->setUrl(QUrl::fromLocalFile(_baseUrl.toLocalFile() + url.toLocalFile() + "index.html"));
                     emit urlChanged(_baseUrl.toLocalFile() + url.toLocalFile() + "index.html");
                 }
             }
@@ -45,7 +46,7 @@ void UrlLoader::back(){
     if(view->history()->backItem().url().fileName() == "index.html") {
         view->history()->back();
     } else {
-        view->history()->goToItem(view->history()->itemAt(view->history()->items().size()-3));
+        view->history()->goToItem(view->history()->itemAt(0));
     }
 }
 
@@ -54,6 +55,5 @@ void UrlLoader::forward(){
 }
 
 void UrlLoader::goHome(){
-    view->history()->clear();
-    loadHtmlToView(_fullUrl.toLocalFile());
+    view->setUrl(_fullUrl);
 }

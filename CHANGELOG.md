@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 
+
+## [0.1.3]
+### Changed
+
+- Updating the reading html file paths based on the latest change of px-wiki.
+
+
 ## [0.1.2]
 ### Changed
 
