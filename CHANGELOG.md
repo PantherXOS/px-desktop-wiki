@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 
+## [0.1.4]
+### Fixed
+
+- Temporary issue fixing in loading the html pages.
+
 
 ## [0.1.3]
 ### Changed
