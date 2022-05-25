@@ -30,6 +30,9 @@ QMap<QString, QString> parseUrlScheme(const QString &url) {
 }
 
 int main (int argc, char** argv) {
+    // https://git.pantherx.org/development/applications/px-desktop-wiki/-/issues/11#note_43087
+    qputenv("QTWEBENGINE_DISABLE_SANDBOX", QByteArray(QString("ON").toUtf8()));    
+
     QMap<QString, QString> urlArgs;
     if(argc > 1) {
         for(int i=0; i<argc; i++)   
