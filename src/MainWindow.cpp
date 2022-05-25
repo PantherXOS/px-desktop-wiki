@@ -19,7 +19,7 @@
 
 QMap<QString, QString> leftsideItemUrl = {{MAIN_PAGE_TITLE, "index.html"},
                                           {TABL_OF_CONTENT_TITLE, "Table-of-contents/index.html"},
-                                          {GETTING_INVOLVED_TITLE, "Involved/index.html"},
+                                          {GETTING_INVOLVED_TITLE, "Getting-involved/index.html"},
                                           {SEARCH_TITLE, "Search/index.html"},
                                           {HELP_TITLE, "Help/index.html"},
                                           {CONTRIBUTING_TITLE, "Contributing/index.html"}};
